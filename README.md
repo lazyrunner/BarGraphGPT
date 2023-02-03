@@ -1,3 +1,7 @@
+# Bar Graph with GPT
+
+using an initial prompt :
+```
 Given the current state of a graph and a prompt, extrapolate as much as possible from the prompt and update the state. Every label inside graph has a corresponding value inside datasets.data. Retain all the names and their values as we update.
 
 Examples:
@@ -16,3 +20,9 @@ new state:
 current state: $cState
 prompt: $prompt
 new state: 
+```
+
+was able to use natural language to make updates in the bar chart
+
+## Demo
+![Demo](./public/screen-capture.gif)

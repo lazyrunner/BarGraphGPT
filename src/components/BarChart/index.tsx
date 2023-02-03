@@ -49,7 +49,7 @@ const defaultData = {
     {
       label: "Dataset 1",
       data: [2, 2, 4, 1],
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
+      backgroundColor: "rgba(20, 184, 166, 0.5)",
     },
   ],
 };

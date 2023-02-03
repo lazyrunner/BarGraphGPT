@@ -20,7 +20,7 @@ export default function Header({ onSubmit }: props) {
         <div className="flex justify-start ">
           <a href="#">Bar Graph GPT</a>
         </div>
-        <form className="w-full ">
+        <div className="w-full ">
           <div className="flex items-center border-b border-teal-500 py-2">
             <input
               className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
@@ -37,19 +37,8 @@ export default function Header({ onSubmit }: props) {
               Prompt
             </button>
           </div>
-        </form>
-        <a
-          href="#"
-          className="text-base font-medium text-gray-500 hover:text-gray-900"
-        >
-          Pricing
-        </a>
-        <a
-          href="#"
-          className="text-base font-medium text-gray-500 hover:text-gray-900"
-        >
-          Docs
-        </a>
+        </div>
+       
       </div>
     </div>
   );
