@@ -1,13 +1,43 @@
-export default function Header() {
+import { useState } from "react";
+
+interface props {
+  onSubmit: Function;
+}
+
+export default function Header({ onSubmit }: props) {
+  const [promptValue, setPrompt] = useState("");
+  const onSubmitValue = () => {
+    onSubmit(promptValue);
+  };
+
+  const handleChange = (event: any) => {
+    setPrompt(event.target.value);
+  };
+
   return (
     <div className="mx-auto px-6">
       <div className="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
-        <div className="flex justify-start lg:w-0 lg:flex-1">
-          <a href="#">
-            <span className="sr-only">Your Company</span>
-            Bar Graph GPT
-          </a>
+        <div className="flex justify-start ">
+          <a href="#">Bar Graph GPT</a>
         </div>
+        <form className="w-full ">
+          <div className="flex items-center border-b border-teal-500 py-2">
+            <input
+              className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+              type="text"
+              placeholder="Jack has 12 and John has 12"
+              onChange={handleChange}
+              value={promptValue}
+            />
+            <button
+              className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
+              onClick={onSubmitValue}
+              type="button"
+            >
+              Prompt
+            </button>
+          </div>
+        </form>
         <a
           href="#"
           className="text-base font-medium text-gray-500 hover:text-gray-900"
@@ -20,21 +50,6 @@ export default function Header() {
         >
           Docs
         </a>
-
-        <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
-          <a
-            href="#"
-            className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
-          >
-            Sign in
-          </a>
-          <a
-            href="#"
-            className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-          >
-            Sign up
-          </a>
-        </div>
       </div>
     </div>
   );

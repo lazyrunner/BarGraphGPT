@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -19,7 +19,7 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
+const options = {
   responsive: true,
   plugins: {
     legend: {
@@ -32,19 +32,72 @@ export const options = {
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
+const OPENAI_API_KEY = "<Inset API KEY>";
 
-export const data = {
-  labels,
+const DEFAULT_PARAMS = {
+  model: "text-davinci-003",
+  temperature: 0.3,
+  max_tokens: 800,
+  top_p: 1,
+  frequency_penalty: 0,
+  presence_penalty: 0,
+};
+
+const defaultData = {
+  labels: ["John", "Jack", "Jill", "Tom"],
   datasets: [
     {
       label: "Dataset 1",
-      data: [12, 10, 9, 11, 6, 3, 2, 1, 5, 4, 7, 8],
+      data: [2, 2, 4, 1],
       backgroundColor: "rgba(255, 99, 132, 0.5)",
     },
   ],
 };
 
-export default function BarChart() {
+interface prop {
+  prompt: string;
+}
+
+export default function BarChart({ prompt }: prop) {
+  const [data, setData] = useState(defaultData);
+  useEffect(() => {
+    if (prompt.trim().length > 0) queryPrompt(prompt);
+  }, [prompt]);
+  const queryPrompt = (prompt: string) => {
+    fetch("prompts/main.prompt")
+      .then((response) => response.text())
+      .then((text) => text.replace("$prompt", prompt))
+      .then((text) => text.replace("$cState", JSON.stringify(data)))
+      .then((prompt) => {
+        console.log(prompt);
+
+        const params = { ...DEFAULT_PARAMS, prompt: prompt };
+
+        const requestOptions = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + String(OPENAI_API_KEY),
+          },
+          body: JSON.stringify(params),
+        };
+        fetch("https://api.openai.com/v1/completions", requestOptions)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            const text = data.choices[0].text;
+            console.log(text);
+            const new_graph = JSON.parse(text);
+            console.log(new_graph);
+            setData(new_graph);
+            document.body.style.cursor = "default";
+          })
+          .catch((error) => {
+            console.log(error);
+            document.body.style.cursor = "default";
+          });
+      });
+  };
+
   return <Bar options={options} data={data} />;
 }
